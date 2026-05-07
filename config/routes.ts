@@ -180,6 +180,12 @@ export default [
         path: '/list/card-list',
         component: './list/card-list',
       },
+      {
+        name: 'basic-list-2',
+        icon: 'table',
+        path: '/list/basic-list-2',
+        component: './BasicList',
+      },
     ],
   },
   {
