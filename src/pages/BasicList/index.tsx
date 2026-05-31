@@ -5,7 +5,7 @@ import { useRequest } from 'umi';
 import styles from './index.less';
 
 
-const index = () => {
+const Index = () => {
   const [page, setPage] = useState(1);
   const [per_page, setPerPage] = useState(10)
   const init = useRequest<{ data: BasicListApi.ListData }>(
@@ -113,4 +113,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
