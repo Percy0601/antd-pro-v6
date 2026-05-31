@@ -1,4 +1,4 @@
-declare module BasicListApi {
+declare namespace BasicListApi {
   type ActionHandler = (action: BasicListApi.Action, record: any) => void;
 
   type Page = {
