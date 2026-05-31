@@ -64,6 +64,20 @@ declare namespace BasicListApi {
     meta: Meta;
   };
 
+  type TableColumn = {
+    title: string;
+    dataIndex: string;
+    key: string;
+    type?: string;
+    data?: Datum[];
+    hideInColumn?: boolean;
+    sorter?: boolean;
+    mode?: string;
+    actions?: Action[];
+    [key: string]: any;
+
+  };
+
   type PageData = {
     page: Page;
     layout: PageLayout;

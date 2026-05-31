@@ -1,9 +1,9 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import { Button, Card, Col, Pagination, Row, Table } from 'antd';
+import { Button, Card, Col, Pagination, Row, Table, Tag } from 'antd';
 import {useState, useEffect, useEffectEvent} from 'react';
 import { useRequest } from 'umi';
 import styles from './index.less';
-
+import moment from 'moment';
 
 const Index = () => {
   const [page, setPage] = useState(1);
@@ -93,6 +93,43 @@ const Index = () => {
       </Row>
     );
   };
+
+  const columnBuilder = () => {
+    const newColumns: BasicListApi.TableColumn[] = [];
+    newColumns.push({ title: 'ID', dataIndex: 'id', key: 'id' });
+    (init?.data?.layout?.tableColumn || []).forEach((column: any) => {
+
+
+      if(column.hideInColumn !== true) {
+
+        switch (column.type) {
+          case 'datetime':
+            column.render = (value: any) => {
+              return moment(value).format('YYYY-MM-DD HH:mm:ss')
+            }
+            break;
+          case 'switch':
+            column.render = (value: any) => {
+              const option = column.data.find((item: any) => {
+                return item.value === value;
+              });
+              return <Tag color={value? 'blue': 'red'}>{option?.title}</Tag>
+            }
+            break;
+          default:
+            break;
+        }
+        newColumns.push(column);
+      }
+    })
+
+    // return [{ title: 'ID', dataIndex: 'id', key: 'id'}].concat(init?.data?.layout?.tableColumn.filter((item) => {
+    //   return item.hideInColumn !== true;
+    // }) || []);
+    return newColumns;;
+  }
+
+
   return (
     <PageContainer>
        {searchLayout()}
@@ -101,9 +138,7 @@ const Index = () => {
         <Table
           rowKey="id"
           dataSource={init?.data?.dataSource}
-          columns={init?.data?.layout?.tableColumn.filter((item) => {
-            return item.hideInColumn !== true;
-          })}
+          columns={columnBuilder()}
           pagination={false}
           loading={init?.loading}
         />
