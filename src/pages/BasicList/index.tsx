@@ -13,38 +13,38 @@ const Index = () => {
   const init = useRequest<{ data: BasicListApi.ListData }>(
     `https://public-api-v2.aspirantzhang.com/api/admins?X-API-KEY=antd&page=${page}&per_page=${per_page}`,
   );
-  const dataSource = [
-    {
-      key: '1',
-      name: '胡彦斌',
-      age: 32,
-      address: '西湖区湖底公园1号',
-    },
-    {
-      key: '2',
-      name: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号',
-    },
-  ];
-
-  const columns = [
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '年龄',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: '住址',
-      dataIndex: 'address',
-      key: 'address',
-    },
-  ];
+  // const dataSource = [
+  //   {
+  //     key: '1',
+  //     name: '胡彦斌',
+  //     age: 32,
+  //     address: '西湖区湖底公园1号',
+  //   },
+  //   {
+  //     key: '2',
+  //     name: '胡彦祖',
+  //     age: 42,
+  //     address: '西湖区湖底公园1号',
+  //   },
+  // ];
+  //
+  // const columns = [
+  //   {
+  //     title: '姓名',
+  //     dataIndex: 'name',
+  //     key: 'name',
+  //   },
+  //   {
+  //     title: '年龄',
+  //     dataIndex: 'age',
+  //     key: 'age',
+  //   },
+  //   {
+  //     title: '住址',
+  //     dataIndex: 'address',
+  //     key: 'address',
+  //   },
+  // ];
 
   /**
    * init.run() 触发条件: page, per_page变更

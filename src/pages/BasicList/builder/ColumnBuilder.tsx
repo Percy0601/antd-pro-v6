@@ -25,7 +25,7 @@ const ColumnBuilder = (tableColumn: BasicListApi.TableColumn[] | undefined) => {
                     }
                     break;
                 case 'actions':
-                    column.render = (value: any) => {
+                    column.render = () => {
                         return <Space>{ActionBuilder(column.actions)}</Space>;
                     }
                     break;
