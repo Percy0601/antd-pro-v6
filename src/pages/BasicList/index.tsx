@@ -1,9 +1,11 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import { Button, Card, Col, Pagination, Row, Table, Tag } from 'antd';
-import {useState, useEffect, useEffectEvent} from 'react';
+import { Card, Col, Pagination, Row, Table, Space} from 'antd';
+import {useState, useEffect} from 'react';
 import { useRequest } from 'umi';
+
+import ColumnBuilder from './builder/ColumnBuilder';
+import ActionBuilder from './builder/ActionBuilder';
 import styles from './index.less';
-import moment from 'moment';
 
 const Index = () => {
   const [page, setPage] = useState(1);
@@ -62,7 +64,8 @@ const Index = () => {
           ...
         </Col>
         <Col xs={24} sm={12} className={styles['table-toolbar']}>
-          <Button type="primary">Add</Button>
+          {/*<Button type="primary">Add</Button>*/}
+          <Space>{ActionBuilder(init?.data?.layout.tableToolBar)}</Space>
         </Col>
       </Row>
     );
@@ -94,40 +97,6 @@ const Index = () => {
     );
   };
 
-  const columnBuilder = () => {
-    const newColumns: BasicListApi.TableColumn[] = [];
-    newColumns.push({ title: 'ID', dataIndex: 'id', key: 'id' });
-    (init?.data?.layout?.tableColumn || []).forEach((column: any) => {
-
-
-      if(column.hideInColumn !== true) {
-
-        switch (column.type) {
-          case 'datetime':
-            column.render = (value: any) => {
-              return moment(value).format('YYYY-MM-DD HH:mm:ss')
-            }
-            break;
-          case 'switch':
-            column.render = (value: any) => {
-              const option = column.data.find((item: any) => {
-                return item.value === value;
-              });
-              return <Tag color={value? 'blue': 'red'}>{option?.title}</Tag>
-            }
-            break;
-          default:
-            break;
-        }
-        newColumns.push(column);
-      }
-    })
-
-    // return [{ title: 'ID', dataIndex: 'id', key: 'id'}].concat(init?.data?.layout?.tableColumn.filter((item) => {
-    //   return item.hideInColumn !== true;
-    // }) || []);
-    return newColumns;;
-  }
 
 
   return (
@@ -138,7 +107,7 @@ const Index = () => {
         <Table
           rowKey="id"
           dataSource={init?.data?.dataSource}
-          columns={columnBuilder()}
+          columns={ColumnBuilder(init?.data?.layout?.tableColumn)}
           pagination={false}
           loading={init?.loading}
         />
