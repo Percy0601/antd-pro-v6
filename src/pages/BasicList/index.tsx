@@ -5,6 +5,8 @@ import { useRequest } from 'umi';
 
 import ColumnBuilder from './builder/ColumnBuilder';
 import ActionBuilder from './builder/ActionBuilder';
+import Modal from './component/Modal';
+
 import styles from './index.less';
 
 const Index = () => {
@@ -113,6 +115,7 @@ const Index = () => {
         />
         {afterTableLayout()}
       </Card>
+    <Modal />
     </PageContainer>
   );
 };
