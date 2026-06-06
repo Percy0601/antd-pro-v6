@@ -1,5 +1,5 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import { Card, Col, Pagination, Row, Table, Space} from 'antd';
+import {Card, Col, Pagination, Row, Table, Space, Button} from 'antd';
 import {useState, useEffect} from 'react';
 import { useRequest } from 'umi';
 
@@ -11,7 +11,9 @@ import styles from './index.less';
 
 const Index = () => {
   const [page, setPage] = useState(1);
-  const [per_page, setPerPage] = useState(10)
+  const [per_page, setPerPage] = useState(10);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalUri, setModalUri] = useState('');
   const init = useRequest<{ data: BasicListApi.ListData }>(
     `https://public-api-v2.aspirantzhang.com/api/admins?X-API-KEY=antd&page=${page}&per_page=${per_page}`,
   );
@@ -103,19 +105,31 @@ const Index = () => {
 
   return (
     <PageContainer>
-       {searchLayout()}
-      <Card>
-        {beforeTableLayout()}
-        <Table
-          rowKey="id"
-          dataSource={init?.data?.dataSource}
-          columns={ColumnBuilder(init?.data?.layout?.tableColumn)}
-          pagination={false}
-          loading={init?.loading}
-        />
-        {afterTableLayout()}
-      </Card>
-    <Modal />
+        <Button type="primary" onClick={() => {
+            setModalUri('https://public-api-v2.aspirantzhang.com/api/admins/add?X-API-KEY=antd');
+            setModalVisible(true);
+        }}>Add</Button>
+
+        <Button type="primary" onClick={() => {
+            setModalUri('https://public-api-v2.aspirantzhang.com/api/admins/206?X-API-KEY=antd');
+            setModalVisible(true);
+        }}>Edit</Button>
+        {searchLayout()}
+        <Card>
+            {beforeTableLayout()}
+            <Table
+              rowKey="id"
+              dataSource={init?.data?.dataSource}
+              columns={ColumnBuilder(init?.data?.layout?.tableColumn)}
+              pagination={false}
+              loading={init?.loading}
+            />
+            {afterTableLayout()}
+        </Card>
+        <Modal modalVisible={modalVisible} hideModal={() => {
+            setModalVisible(false);
+        }}
+        modalUri={modalUri}/>
     </PageContainer>
   );
 };

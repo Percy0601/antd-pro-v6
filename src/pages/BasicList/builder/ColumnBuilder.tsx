@@ -1,3 +1,4 @@
+import React from 'react';
 import moment from 'moment';
 import { Tag, Space} from 'antd';
 import ActionBuilder from './ActionBuilder';
