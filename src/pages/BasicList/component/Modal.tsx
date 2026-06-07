@@ -3,6 +3,7 @@ import {Modal as AntdModal, Form} from 'antd';
 import {useRequest} from 'umi';
 
 import FormBuilder from '../builder/FormBuilder';
+import ActionBuilder from '../builder/ActionBuilder';
 
 const Modal = ({ modalVisible, hideModal, modalUri }: {modalVisible: boolean; hideModal: () => void; modalUri: string}) => {
     const init = useRequest<{ data: PageApi.Data }>(
@@ -23,11 +24,12 @@ const Modal = ({ modalVisible, hideModal, modalUri }: {modalVisible: boolean; hi
     return (
         <div>
             <AntdModal
-                title="Basic Modal"
+                title={init?.data?.page?.title}
                 closable={{ 'aria-label': 'Custom Close Button' }}
                 open={modalVisible}
                 // onOk={handleOk}
                 onCancel={hideModal}
+                footer={ActionBuilder(init?.data?.layout?.actions[0].data)}
             >
                 <Form {...layout}>
                     {FormBuilder(init?.data?.layout?.tabs[0]?.data)}
