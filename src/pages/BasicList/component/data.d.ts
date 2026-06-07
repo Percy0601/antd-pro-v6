@@ -1,4 +1,4 @@
-declare module PageApi {
+declare namespace PageApi {
     export interface Root {
         success: boolean
         message: string
