@@ -13,8 +13,8 @@ declare namespace BasicListApi {
     text: string;
     type: string;
     action: string;
-    uri?: string;
-    method?: string;
+    uri: string;
+    method: string;
   };
 
   type Field = {
