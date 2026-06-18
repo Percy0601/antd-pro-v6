@@ -4,12 +4,13 @@ import {useRequest} from 'umi';
 import moment from 'moment';
 import FormBuilder from '../builder/FormBuilder';
 import ActionBuilder from '../builder/ActionBuilder';
+import {setFieldsConverter, submitFieldAdaptor} from '../helper';
 
 const Modal = ({ modalVisible, hideModal, modalUri }: {modalVisible: boolean; hideModal: () => void; modalUri: string}) => {
     const [form] = Form.useForm();
-    const init = useRequest<{ data: PageApi.Data }>(
+    const init = useRequest<{ data: BasicListApi.PageData }>(
         // `https://public-api-v2.aspirantzhang.com/api/admins/add?X-API-KEY=antd`,
-        `${modalUri}`, {
+        `https://public-api-v2.aspirantzhang.com${modalUri}?X-API-KEY=antd`, {
             manual: true,
         }
     );
@@ -26,10 +27,10 @@ const Modal = ({ modalVisible, hideModal, modalUri }: {modalVisible: boolean; hi
                 url: `https://public-api-v2.aspirantzhang.com${uri}`,
                 method: method,
                 data: {
-                    ...formValues,
+                    ...submitFieldAdaptor(formValues),
                     'X-API-KEY': 'antd',
-                    'create_time': moment(formValues.create_time).format(),
-                    'update_time': moment(formValues.update_time).format(),
+                    // 'create_time': moment(formValues.create_time).format(),
+                    // 'update_time': moment(formValues.update_time).format(),
                 },
             };
         },
@@ -44,26 +45,6 @@ const Modal = ({ modalVisible, hideModal, modalUri }: {modalVisible: boolean; hi
             init.run();
         }
     }, [modalVisible]);
-
-    const setFieldsConverter = (data: PageApi.Data) => {
-        if(data?.layout?.tabs && data?.dataSource) {
-            const result = {};
-            data.layout.tabs.forEach((tab) => {
-                tab.data.forEach((field) => {
-                    switch (field.type) {
-                        case 'datetime':
-                            result[field.key] = moment(data.dataSource[field.key]);
-                            break;
-                        default:
-                            result[field.key] = data.dataSource[field.key];
-                            break;
-                    }
-                });
-            });
-            return result;
-        }
-        return {};
-    };
 
     // 等待init请求返回值后， 然后对表单进行初始化操作。
     useEffect(() => {

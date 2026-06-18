@@ -4,7 +4,7 @@ import { Tag, Space} from 'antd';
 import ActionBuilder from './ActionBuilder';
 
 
-const ColumnBuilder = (tableColumn: BasicListApi.TableColumn[] | undefined) => {
+const ColumnBuilder = (tableColumn: BasicListApi.TableColumn[] | undefined, actionHandler: BasicListApi.ActionHandler) => {
     const newColumns: BasicListApi.TableColumn[] = [];
     newColumns.push({ title: 'ID', dataIndex: 'id', key: 'id' });
     (tableColumn || []).forEach((column: any) => {
@@ -27,7 +27,7 @@ const ColumnBuilder = (tableColumn: BasicListApi.TableColumn[] | undefined) => {
                     break;
                 case 'actions':
                     column.render = () => {
-                        return <Space>{ActionBuilder(column.actions)}</Space>;
+                        return <Space>{ActionBuilder(column.actions, actionHandler)}</Space>;
                     }
                     break;
                 default:

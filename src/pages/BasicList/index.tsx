@@ -57,7 +57,16 @@ const Index = () => {
     init.run();
   }, [page, per_page]);
 
-
+  const actionHandler = (action: BasicListApi.Action) => {
+      switch (action.action) {
+          case 'modal':
+              setModalUri(action.uri as string);
+              setModalVisible(true);
+              break;
+          default:
+              break;
+      }
+  };
   const searchLayout = () => {
     return ("");
   };
@@ -69,7 +78,7 @@ const Index = () => {
         </Col>
         <Col xs={24} sm={12} className={styles['table-toolbar']}>
           {/*<Button type="primary">Add</Button>*/}
-          <Space>{ActionBuilder(init?.data?.layout.tableToolBar)}</Space>
+          <Space>{ActionBuilder(init?.data?.layout.tableToolBar, actionHandler)}</Space>
         </Col>
       </Row>
     );
@@ -111,7 +120,7 @@ const Index = () => {
         }}>Add</Button>
 
         <Button type="primary" onClick={() => {
-            setModalUri('https://public-api-v2.aspirantzhang.com/api/admins/206?X-API-KEY=antd');
+            setModalUri('https://public-api-v2.aspirantzhang.com/api/admins/2257?X-API-KEY=antd');
             setModalVisible(true);
         }}>Edit</Button>
         {searchLayout()}
@@ -120,7 +129,7 @@ const Index = () => {
             <Table
               rowKey="id"
               dataSource={init?.data?.dataSource}
-              columns={ColumnBuilder(init?.data?.layout?.tableColumn)}
+              columns={ColumnBuilder(init?.data?.layout?.tableColumn, actionHandler)}
               pagination={false}
               loading={init?.loading}
             />

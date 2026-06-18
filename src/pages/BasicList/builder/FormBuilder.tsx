@@ -1,6 +1,6 @@
 import React from 'react';
 import {Input, Form, DatePicker, TreeSelect, Switch} from 'antd';
-const FormBuilder = (data: PageApi.Daum[] | undefined) => {
+const FormBuilder = (data: BasicListApi.Field[] | undefined) => {
     return (data || []).map((field: any) => {
         switch (field.type) {
             case 'text':
