@@ -1,10 +1,9 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import {Card, Col, Pagination, Row, Table, Space, Button} from 'antd';
-import {useState, useEffect} from 'react';
+import { Button, Card, Col, Pagination, Row, Space, Table } from 'antd';
+import { useEffect, useState } from 'react';
 import { useRequest } from 'umi';
-
-import ColumnBuilder from './builder/ColumnBuilder';
 import ActionBuilder from './builder/ActionBuilder';
+import ColumnBuilder from './builder/ColumnBuilder';
 import Modal from './component/Modal';
 
 import styles from './index.less';
@@ -58,17 +57,17 @@ const Index = () => {
   }, [page, per_page]);
 
   const actionHandler = (action: BasicListApi.Action) => {
-      switch (action.action) {
-          case 'modal':
-              setModalUri(action.uri as string);
-              setModalVisible(true);
-              break;
-          default:
-              break;
-      }
+    switch (action.action) {
+      case 'modal':
+        setModalUri(action.uri as string);
+        setModalVisible(true);
+        break;
+      default:
+        break;
+    }
   };
   const searchLayout = () => {
-    return ("");
+    return '';
   };
   const beforeTableLayout = () => {
     return (
@@ -78,7 +77,9 @@ const Index = () => {
         </Col>
         <Col xs={24} sm={12} className={styles['table-toolbar']}>
           {/*<Button type="primary">Add</Button>*/}
-          <Space>{ActionBuilder(init?.data?.layout.tableToolBar, actionHandler)}</Space>
+          <Space>
+            {ActionBuilder(init?.data?.layout.tableToolBar, actionHandler)}
+          </Space>
         </Col>
       </Row>
     );
@@ -87,7 +88,7 @@ const Index = () => {
   const paginationChangeHandler = (page: any, pageSize: any) => {
     setPage(page);
     setPerPage(pageSize);
-  }
+  };
   const afterTableLayout = () => {
     return (
       <Row>
@@ -96,49 +97,45 @@ const Index = () => {
         </Col>
         <Col xs={24} sm={16}>
           <Pagination
-          total={init?.data?.meta?.total || 0}
-          current={init?.data?.meta?.page || 1}
-          pageSize={init?.data?.meta?.per_page || 10}
-          showQuickJumper
-          showSizeChanger
-          showTotal={(total) => `Total ${total} items`}
-          onChange={paginationChangeHandler}
-          onShowSizeChange={paginationChangeHandler}
-          align="end" />
+            total={init?.data?.meta?.total || 0}
+            current={init?.data?.meta?.page || 1}
+            pageSize={init?.data?.meta?.per_page || 10}
+            showQuickJumper
+            showSizeChanger
+            showTotal={(total) => `Total ${total} items`}
+            onChange={paginationChangeHandler}
+            onShowSizeChange={paginationChangeHandler}
+            align="end"
+          />
         </Col>
       </Row>
     );
   };
 
-
-
   return (
     <PageContainer>
-        <Button type="primary" onClick={() => {
-            setModalUri('https://public-api-v2.aspirantzhang.com/api/admins/add?X-API-KEY=antd');
-            setModalVisible(true);
-        }}>Add</Button>
-
-        <Button type="primary" onClick={() => {
-            setModalUri('https://public-api-v2.aspirantzhang.com/api/admins/2257?X-API-KEY=antd');
-            setModalVisible(true);
-        }}>Edit</Button>
-        {searchLayout()}
-        <Card>
-            {beforeTableLayout()}
-            <Table
-              rowKey="id"
-              dataSource={init?.data?.dataSource}
-              columns={ColumnBuilder(init?.data?.layout?.tableColumn, actionHandler)}
-              pagination={false}
-              loading={init?.loading}
-            />
-            {afterTableLayout()}
-        </Card>
-        <Modal modalVisible={modalVisible} hideModal={() => {
-            setModalVisible(false);
+      {searchLayout()}
+      <Card>
+        {beforeTableLayout()}
+        <Table
+          rowKey="id"
+          dataSource={init?.data?.dataSource}
+          columns={ColumnBuilder(
+            init?.data?.layout?.tableColumn,
+            actionHandler,
+          )}
+          pagination={false}
+          loading={init?.loading}
+        />
+        {afterTableLayout()}
+      </Card>
+      <Modal
+        modalVisible={modalVisible}
+        hideModal={() => {
+          setModalVisible(false);
         }}
-        modalUri={modalUri}/>
+        modalUri={modalUri}
+      />
     </PageContainer>
   );
 };
